@@ -1,64 +1,1151 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> Module 2 solution </title>
-   
-     <link href="CSS/style2.css" type="text/css" rel="stylesheet" >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ST Trigonometry - Matemáticas Interactivas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #0a0a0a;
+            color: white;
+        }
+        
+        /* Navegación */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 10px 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateY(-2px);
+        }
+        
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 300px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .dropdown-content {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .dropdown-link {
+            color: #ccc;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+        
+        .dropdown-link:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        /* Banner Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 4.5em;
+            font-weight: 300;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            color: #ccc;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            position: relative;
+            z-index: 15;
+        }
+        
+        /* Efectos de ondas trigonométricas */
+        .trig-waves {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 400px;
+            z-index: 5;
+            opacity: 0.3;
+        }
+        
+        .wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .wave-sine {
+            animation: wave-sine 4s ease-in-out infinite;
+        }
+        
+        .wave-cosine {
+            animation: wave-cosine 6s ease-in-out infinite;
+        }
+        
+        .wave-tangent {
+            animation: wave-tangent 8s ease-in-out infinite;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Animaciones matemáticas de fondo */
+        .math-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .math-symbol {
+            position: absolute;
+            color: rgba(102, 126, 234, 0.4);
+            font-size: 2em;
+            animation: cascade 8s linear infinite;
+            user-select: none;
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+        
+        .math-symbol:nth-child(odd) {
+            animation-duration: 10s;
+        }
+        
+        .math-symbol:nth-child(even) {
+            animation-duration: 12s;
+        }
+        
+        /* Sección del Cronograma */
+        .periods-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .periods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .period-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .period-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .period-number {
+            font-size: 3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+        
+        .period-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .period-description {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .topics-list {
+            list-style: none;
+            text-align: left;
+        }
+        
+        .topics-list li {
+            padding: 8px 0;
+            color: #aaa;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .topics-list li:hover {
+            color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .topics-list li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Estilos del Gantt */
+        .gantt-container {
+            padding: 30px;
+            overflow-x: auto;
+        }
+        
+        .gantt-chart {
+            min-width: 1000px;
+            border: 2px solid #d0d7de;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gantt-header {
+            display: flex;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .activity-column {
+            width: 300px;
+            padding: 15px;
+            border-right: 2px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.1);
+        }
+        
+        .week-column {
+            width: 80px;
+            padding: 15px 5px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9em;
+        }
+        
+        .gantt-row {
+            display: flex;
+            border-bottom: 1px solid #d0d7de;
+            min-height: 60px;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            background: white;
+        }
+        
+        .gantt-row:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .gantt-row:nth-child(even) {
+            background-color: #fafbff;
+        }
+        
+        .activity-cell {
+            width: 300px;
+            padding: 15px;
+            border-right: 2px solid #d0d7de;
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .activity-name {
+            font-size: 1em;
+            margin-bottom: 5px;
+            color: #2d3748;
+        }
+        
+        .activity-details {
+            font-size: 0.8em;
+            color: #718096;
+        }
+        
+        .week-cell {
+            width: 80px;
+            padding: 5px;
+            border-right: 1px solid #d0d7de;
+            text-align: center;
+            position: relative;
+        }
+        
+        .activity-bar {
+            height: 25px;
+            border-radius: 12px;
+            margin: 2px 0;
+            position: relative;
+            color: white;
+            font-size: 0.7em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .activity-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .bar-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .bar-evaluation {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .bar-simulation {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .bar-auto {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .bar-reading {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        }
+        
+        .bar-project {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        }
+        
+        .bar-attitude {
+            background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            color: #000000;
+            font-weight: 500;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+        }
+        
+        .week-progress {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .week-progress-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+            overflow: hidden;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 300;
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .modal-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+        
+        .modal-info strong {
+            color: #667eea;
+        }
+        
+        .modal-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .close:hover {
+            opacity: 0.7;
+        }
+        
+        /* Animaciones */
+        @keyframes cascade {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 3em;
+            }
+            
+            .hero p {
+                font-size: 1.1em;
+            }
+            
+            .section-title {
+                font-size: 2.5em;
+            }
+            
+            .periods-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-
-
-    <h1 class="background-0"> Our Menu </h1>
-    <p></p>
-
-    <div class="row">
-        <div class="col-lg-1 col-md-1 col-sm-1">
-            <div class="p-section">
-                <h4 class="background-1">
-                    Chicken
-                </h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat ante sed tortor gravida pulvinar.
-                    Ut ultricies nunc ac felis pulvinar fringilla ut nec metus. Cras vitae viverra erat, at accumsan enim.
-                    Mauris sit amet laoreet erat, quis porta tortor. Etiam at nunc sit amet ex eleifend auctor. Proin non justo urna.
-                    Etiam vulputate at ante id cursus.
-                </p>
-            </div>
-
+    <!-- Navegación -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">ST Trigonometry</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Periodo 1</a>
+                    <div class="dropdown">
+                        <div class="dropdown-content">
+                            <a href="periodo1/angulos.html" class="dropdown-link">• Ángulos y medidas</a>
+                            <a href="periodo1/radianes.html" class="dropdown-link">• Radianes y grados</a>
+                            <a href="periodo1/circulo-unitario.html" class="dropdown-link">• Círculo unitario</a>
+                            <a href="periodo1/funciones-basicas.html" class="dropdown-link">• Funciones trigonométricas básicas</a>
+                            <a href="periodo1/evaluacion.html" class="dropdown-link">• Evaluación Periodo 1</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Periodo 2</a>
+                    <div class="dropdown">
+                        <div class="dropdown-content">
+                            <a href="periodo2/graficas-seno.html" class="dropdown-link">• Gráficas de seno</a>
+                            <a href="periodo2/graficas-coseno.html" class="dropdown-link">• Gráficas de coseno</a>
+                            <a href="periodo2/graficas-tangente.html" class="dropdown-link">• Gráficas de tangente</a>
+                            <a href="periodo2/transformaciones.html" class="dropdown-link">• Transformaciones</a>
+                            <a href="periodo2/evaluacion.html" class="dropdown-link">• Evaluación Periodo 2</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Periodo 3</a>
+                    <div class="dropdown">
+                        <div class="dropdown-content">
+                            <a href="periodo3/gantt.html" class="dropdown-link">• Cronograma Interactivo</a>
+                            <a href="periodo3/graficas-funciones.html" class="dropdown-link">• Gráficas de funciones trigonométricas</a>
+                            <a href="periodo3/identidades.html" class="dropdown-link">• Identidades trigonométricas</a>
+                            <a href="periodo3/ley-seno-coseno.html" class="dropdown-link">• Ley del seno y Ley del coseno</a>
+                            <a href="periodo3/probabilidad.html" class="dropdown-link">• Probabilidad: Técnicas de conteo</a>
+                            <a href="periodo3/numeros-complejos.html" class="dropdown-link">• Números complejos</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Periodo 4</a>
+                    <div class="dropdown">
+                        <div class="dropdown-content">
+                            <a href="periodo4/ecuaciones.html" class="dropdown-link">• Ecuaciones trigonométricas</a>
+                            <a href="periodo4/vectores.html" class="dropdown-link">• Vectores y trigonometría</a>
+                            <a href="periodo4/aplicaciones.html" class="dropdown-link">• Aplicaciones en física</a>
+                            <a href="periodo4/proyecto-final.html" class="dropdown-link">• Proyecto final</a>
+                            <a href="periodo4/evaluacion.html" class="dropdown-link">• Evaluación Periodo 4</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
+    </nav>
 
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <div class="p-section">
-                <h4 class="background-2">
-                    Beef
-                </h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat ante sed tortor gravida pulvinar.
-                    Ut ultricies nunc ac felis pulvinar fringilla ut nec metus. Cras vitae viverra erat, at accumsan enim.
-                    Mauris sit amet laoreet erat, quis porta tortor. Etiam at nunc sit amet ex eleifend auctor. Proin non justo urna.
-                    Etiam vulputate at ante id cursus.
-                </p>
+    <!-- Banner Hero -->
+    <section class="hero">
+        <div class="math-bg" id="mathBackground"></div>
+        <div class="hero-content">
+            <h1>ST Trigonometry</h1>
+            <p>Explora el fascinante mundo de la trigonometría con experiencias inmersivas e interactivas</p>
+            <a href="#cronograma" class="cta-button">Cronograma</a>
+        </div>
+    </section>
+
+    <!-- Sección del Cronograma -->
+    <section class="periods-section" id="cronograma">
+        <div class="container">
+            <h2 class="section-title">Cronograma Tercer Periodo</h2>
+            
+            <!-- Diagrama de Gantt -->
+            <div class="gantt-container">
+                <div class="gantt-chart" id="ganttChart">
+                    <!-- El contenido se generará dinámicamente -->
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color bar-content"></div>
+                        <span>Actividades de Contenido</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color bar-reading"></div>
+                        <span>Lectura/Bilingüismo (5% c/u)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color bar-simulation"></div>
+                        <span>Simulacros Saber</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color bar-project"></div>
+                        <span>Proyecto de Vida (10%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color bar-attitude"></div>
+                        <span>Nota Actitudinal (10%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color bar-auto"></div>
+                        <span>Autoevaluación</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color bar-evaluation"></div>
+                        <span>Evaluación Bimestral</span>
+                    </div>
+                </div>
+                
+                <div class="week-progress">
+                    <div class="week-progress-bar" id="weekProgress"></div>
+                </div>
+                <div style="text-align: center; margin-top: 10px; color: #4a5568; font-size: 0.9em;">
+                    <span id="progressText">Progreso del periodo: 0%</span>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <div class="p-section">
-                <h4 class="background-3">
-                    Sushi
-                </h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras feugiat ante sed tortor gravida pulvinar.
-                    Ut ultricies nunc ac felis pulvinar fringilla ut nec metus. Cras vitae viverra erat, at accumsan enim.
-                    Mauris sit amet laoreet erat, quis porta tortor. Etiam at nunc sit amet ex eleifend auctor. Proin non justo urna.
-                    Etiam vulputate at ante id cursus.
-                </p>
+    <!-- Modal -->
+    <div id="activityModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h3 id="modalTitle">Actividad</h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info">
+                    <span><strong>Porcentaje:</strong></span>
+                    <span id="modalPercentage">0%</span>
+                </div>
+                <div class="modal-info">
+                    <span><strong>Duración:</strong></span>
+                    <span id="modalDuration">0 semanas</span>
+                </div>
+                <div class="modal-info">
+                    <span><strong>Semana(s):</strong></span>
+                    <span id="modalWeeks">1</span>
+                </div>
+                <div class="modal-description" id="modalDescription">
+                    Descripción de la actividad
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ST Trigonometry. Matemáticas inmersivas para el futuro.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navegación con scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Animación de símbolos matemáticos en el fondo
+        function createMathSymbols() {
+            const mathBg = document.getElementById('mathBackground');
+            const symbols = ['∑', '∫', 'π', '∞', '√', '∆', 'θ', 'α', 'β', 'γ', 'sin', 'cos', 'tan', '°', '∠'];
+            
+            for (let i = 0; i < 30; i++) {
+                const symbol = document.createElement('div');
+                symbol.className = 'math-symbol';
+                symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                symbol.style.left = Math.random() * 100 + '%';
+                symbol.style.top = '100%'; // Empiezan desde abajo
+                symbol.style.animationDelay = Math.random() * 8 + 's';
+                symbol.style.fontSize = (Math.random() * 2 + 1) + 'em';
+                mathBg.appendChild(symbol);
+            }
+        }
+
+        // Datos de las actividades con descripciones
+        const activities = [
+            {
+                name: "A1. Gráficas de funciones trigonométricas",
+                duration: 2,
+                startWeek: 1,
+                percentage: 5,
+                type: "content",
+                description: "Estudio de las gráficas de las funciones seno, coseno y tangente. Amplitud, periodo, fase y desplazamientos verticales."
+            },
+            {
+                name: "A2. Identidades trigonométricas",
+                duration: 2,
+                startWeek: 3,
+                percentage: 5,
+                type: "content",
+                description: "Demostración y aplicación de identidades trigonométricas fundamentales, pitagóricas, de suma y diferencia."
+            },
+            {
+                name: "A3. Ley del seno y Ley del coseno",
+                duration: 2,
+                startWeek: 5,
+                percentage: 5,
+                type: "content",
+                description: "Resolución de triángulos oblicuángulos usando las leyes del seno y coseno. Aplicaciones en problemas reales."
+            },
+            {
+                name: "A4. Probabilidad: Técnicas de conteo",
+                duration: 2,
+                startWeek: 7,
+                percentage: 5,
+                type: "content",
+                description: "Principio fundamental de conteo, permutaciones, combinaciones y su aplicación en problemas de probabilidad."
+            },
+            {
+                name: "Números complejos",
+                duration: 1,
+                startWeek: 9,
+                percentage: 5,
+                type: "content",
+                description: "Introducción a los números complejos, operaciones básicas, forma binómica y representación gráfica."
+            },
+            {
+                name: "Lectura/Bilingüismo #1",
+                duration: 1,
+                startWeek: 1,
+                percentage: 5,
+                type: "reading",
+                description: "Primera evaluación de comprensión lectora y competencias en segunda lengua."
+            },
+            {
+                name: "Lectura/Bilingüismo #2",
+                duration: 1,
+                startWeek: 3,
+                percentage: 5,
+                type: "reading",
+                description: "Segunda evaluación de comprensión lectora y competencias en segunda lengua."
+            },
+            {
+                name: "Lectura/Bilingüismo #3",
+                duration: 1,
+                startWeek: 5,
+                percentage: 5,
+                type: "reading",
+                description: "Tercera evaluación de comprensión lectora y competencias en segunda lengua."
+            },
+            {
+                name: "Lectura/Bilingüismo #4",
+                duration: 1,
+                startWeek: 7,
+                percentage: 5,
+                type: "reading",
+                description: "Cuarta evaluación de comprensión lectora y competencias en segunda lengua."
+            },
+            {
+                name: "Simulacro Saber #1",
+                duration: 1,
+                startWeek: 2,
+                percentage: 2.5,
+                type: "simulation",
+                description: "Primera prueba tipo ICFES para preparación de las Pruebas Saber 11°."
+            },
+            {
+                name: "Simulacro Saber #2",
+                duration: 1,
+                startWeek: 4,
+                percentage: 2.5,
+                type: "simulation",
+                description: "Segunda prueba tipo ICFES para preparación de las Pruebas Saber 11°."
+            },
+            {
+                name: "Simulacro Saber #3",
+                duration: 1,
+                startWeek: 6,
+                percentage: 2.5,
+                type: "simulation",
+                description: "Tercera prueba tipo ICFES para preparación de las Pruebas Saber 11°."
+            },
+            {
+                name: "Simulacro Saber #4",
+                duration: 1,
+                startWeek: 8,
+                percentage: 2.5,
+                type: "simulation",
+                description: "Cuarta prueba tipo ICFES para preparación de las Pruebas Saber 11°."
+            },
+            {
+                name: "Proyecto de Vida",
+                duration: 1,
+                startWeek: 10,
+                percentage: 10,
+                type: "project",
+                description: "Evaluación del proyecto personal y profesional del estudiante, incluyendo metas académicas y vocacionales."
+            },
+            {
+                name: "Nota Actitudinal",
+                duration: 1,
+                startWeek: 10,
+                percentage: 10,
+                type: "attitude",
+                description: "Evaluación de la actitud, participación, responsabilidad y comportamiento durante todo el periodo académico."
+            },
+            {
+                name: "Autoevaluación",
+                duration: 1,
+                startWeek: 10,
+                percentage: 5,
+                type: "auto",
+                description: "Reflexión personal del estudiante sobre su propio proceso de aprendizaje y desempeño académico."
+            },
+            {
+                name: "Evaluación Bimestral",
+                duration: 1,
+                startWeek: 10,
+                percentage: 20,
+                type: "evaluation",
+                description: "Evaluación integral de todos los contenidos vistos durante el tercer periodo académico."
+            }
+        ];
+
+        // Fechas de las semanas
+        const startDate = new Date(2025, 6, 7); // 7 de julio de 2025
+        const weeks = [];
+        for (let i = 0; i < 10; i++) {
+            const weekStart = new Date(startDate);
+            weekStart.setDate(startDate.getDate() + (i * 7));
+            weeks.push({
+                number: i + 1,
+                start: weekStart,
+                label: `Sem ${i + 1}`
+            });
+        }
+
+        function generateGanttChart() {
+            const chart = document.getElementById('ganttChart');
+            
+            // Crear header
+            const header = document.createElement('div');
+            header.className = 'gantt-header';
+            
+            const activityHeader = document.createElement('div');
+            activityHeader.className = 'activity-column';
+            activityHeader.textContent = 'Actividades';
+            header.appendChild(activityHeader);
+            
+            weeks.forEach(week => {
+                const weekHeader = document.createElement('div');
+                weekHeader.className = 'week-column';
+                weekHeader.innerHTML = `<div>${week.label}</div><div style="font-size: 0.7em; opacity: 0.8;">${week.start.getDate()}/${week.start.getMonth() + 1}</div>`;
+                header.appendChild(weekHeader);
+            });
+            
+            chart.appendChild(header);
+            
+            // Crear filas de actividades
+            activities.forEach(activity => {
+                const row = document.createElement('div');
+                row.className = 'gantt-row';
+                
+                // Celda de actividad
+                const activityCell = document.createElement('div');
+                activityCell.className = 'activity-cell';
+                activityCell.innerHTML = `
+                    <div class="activity-name">${activity.name}</div>
+                    <div class="activity-details">${activity.percentage}% • ${activity.duration} semana${activity.duration > 1 ? 's' : ''}</div>
+                `;
+                row.appendChild(activityCell);
+                
+                // Celdas de semanas
+                for (let i = 1; i <= 10; i++) {
+                    const weekCell = document.createElement('div');
+                    weekCell.className = 'week-cell';
+                    
+                    // Verificar si la actividad ocurre en esta semana
+                    if (i >= activity.startWeek && i < activity.startWeek + activity.duration) {
+                        const bar = document.createElement('div');
+                        bar.className = `activity-bar bar-${activity.type}`;
+                        
+                        // Determinar el ancho de la barra según la duración
+                        if (activity.duration > 1) {
+                            const position = i - activity.startWeek;
+                            if (position === 0) {
+                                bar.style.width = '100%';
+                                bar.style.borderTopRightRadius = '0';
+                                bar.style.borderBottomRightRadius = '0';
+                            } else if (position === activity.duration - 1) {
+                                bar.style.width = '100%';
+                                bar.style.borderTopLeftRadius = '0';
+                                bar.style.borderBottomLeftRadius = '0';
+                            } else {
+                                bar.style.width = '100%';
+                                bar.style.borderRadius = '0';
+                            }
+                        } else {
+                            bar.style.width = '100%';
+                        }
+                        
+                        // Agregar texto solo en la primera semana de actividades largas
+                        if (i === activity.startWeek) {
+                            bar.textContent = `${activity.percentage}%`;
+                        }
+                        
+                        // Agregar evento click para mostrar modal
+                        bar.addEventListener('click', () => showModal(activity));
+                        
+                        weekCell.appendChild(bar);
+                    }
+                    
+                    row.appendChild(weekCell);
+                }
+                
+                chart.appendChild(row);
+            });
+        }
+
+        // Función para mostrar el modal
+        function showModal(activity) {
+            const modal = document.getElementById('activityModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalPercentage = document.getElementById('modalPercentage');
+            const modalDuration = document.getElementById('modalDuration');
+            const modalWeeks = document.getElementById('modalWeeks');
+            const modalDescription = document.getElementById('modalDescription');
+            
+            modalTitle.textContent = activity.name;
+            modalPercentage.textContent = `${activity.percentage}%`;
+            modalDuration.textContent = `${activity.duration} semana${activity.duration > 1 ? 's' : ''}`;
+            
+            const endWeek = activity.startWeek + activity.duration - 1;
+            modalWeeks.textContent = activity.duration === 1 ? 
+                `Semana ${activity.startWeek}` : 
+                `Semanas ${activity.startWeek} - ${endWeek}`;
+            
+            modalDescription.textContent = activity.description;
+            
+            modal.style.display = 'block';
+        }
+
+        // Función para actualizar la barra de progreso
+        function updateProgress() {
+            const today = new Date();
+            const startDate = new Date(2025, 6, 7); // 7 de julio de 2025
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + (10 * 7)); // 10 semanas después
+            
+            let progress = 0;
+            if (today >= startDate) {
+                const totalDuration = endDate - startDate;
+                const elapsed = Math.min(today - startDate, totalDuration);
+                progress = (elapsed / totalDuration) * 100;
+            }
+            
+            const progressBar = document.getElementById('weekProgress');
+            const progressText = document.getElementById('progressText');
+            
+            progressBar.style.width = `${Math.min(progress, 100)}%`;
+            progressText.textContent = `Progreso del periodo: ${Math.round(Math.min(progress, 100))}%`;
+        }
+
+        // Scroll suave para el botón CTA
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('cronograma').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            createMathSymbols();
+            generateGanttChart();
+            updateProgress();
+            
+            // Cerrar modal
+            const modal = document.getElementById('activityModal');
+            const closeBtn = document.querySelector('.close');
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Efecto de paralaje removido para mejor rendimiento
+        window.addEventListener('scroll', function() {
+            // Solo mantener el efecto del navbar
+        });
+    </script>
 </body>
 </html>
