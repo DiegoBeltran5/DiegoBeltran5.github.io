@@ -146,6 +146,18 @@
             transform: translateX(5px);
         }
         
+        .dropdown-link.disabled {
+            color: #888;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .dropdown-link.disabled:hover {
+            background: none;
+            color: #888;
+            transform: none;
+        }
+        
         /* Banner Hero */
         .hero {
             height: 100vh;
@@ -859,11 +871,11 @@
                     <a href="#" class="nav-link">Periodo 1</a>
                     <div class="dropdown">
                         <div class="dropdown-content">
-                            <a href="periodo1/angulos.html" class="dropdown-link">• Ángulos y medidas</a>
-                            <a href="periodo1/radianes.html" class="dropdown-link">• Radianes y grados</a>
-                            <a href="periodo1/circulo-unitario.html" class="dropdown-link">• Círculo unitario</a>
-                            <a href="periodo1/funciones-basicas.html" class="dropdown-link">• Funciones trigonométricas básicas</a>
-                            <a href="periodo1/evaluacion.html" class="dropdown-link">• Evaluación Periodo 1</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
                         </div>
                     </div>
                 </li>
@@ -871,11 +883,11 @@
                     <a href="#" class="nav-link">Periodo 2</a>
                     <div class="dropdown">
                         <div class="dropdown-content">
-                            <a href="periodo2/graficas-seno.html" class="dropdown-link">• Gráficas de seno</a>
-                            <a href="periodo2/graficas-coseno.html" class="dropdown-link">• Gráficas de coseno</a>
-                            <a href="periodo2/graficas-tangente.html" class="dropdown-link">• Gráficas de tangente</a>
-                            <a href="periodo2/transformaciones.html" class="dropdown-link">• Transformaciones</a>
-                            <a href="periodo2/evaluacion.html" class="dropdown-link">• Evaluación Periodo 2</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
                         </div>
                     </div>
                 </li>
@@ -895,11 +907,11 @@
                     <a href="#" class="nav-link">Periodo 4</a>
                     <div class="dropdown">
                         <div class="dropdown-content">
-                            <a href="periodo4/ecuaciones.html" class="dropdown-link">• Ecuaciones trigonométricas</a>
-                            <a href="periodo4/vectores.html" class="dropdown-link">• Vectores y trigonometría</a>
-                            <a href="periodo4/aplicaciones.html" class="dropdown-link">• Aplicaciones en física</a>
-                            <a href="periodo4/proyecto-final.html" class="dropdown-link">• Proyecto final</a>
-                            <a href="periodo4/evaluacion.html" class="dropdown-link">• Evaluación Periodo 4</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
+                            <a href="#" class="dropdown-link disabled" onclick="showDisabledMessage(event)">• Opción deshabilitada</a>
                         </div>
                     </div>
                 </li>
@@ -1390,6 +1402,12 @@
                 }
             });
         });
+
+        // Función para mostrar mensaje de opción deshabilitada
+        function showDisabledMessage(event) {
+            event.preventDefault();
+            alert('⚠️ Esta opción estará disponible próximamente.\n\nPor ahora, puedes explorar el Periodo 3 que ya está activo.');
+        }
 
         // Función para inicializar el menú móvil
         function initMobileMenu() {
