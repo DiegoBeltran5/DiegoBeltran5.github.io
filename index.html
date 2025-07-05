@@ -172,7 +172,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeInUp 1s ease-out;
+            animation: fadeInUp 1s ease-out, titleGlow 3s ease-in-out infinite;
         }
         
         .hero p {
@@ -192,14 +192,16 @@
             font-weight: 600;
             font-size: 1.1em;
             transition: all 0.3s ease;
-            animation: fadeInUp 1s ease-out 0.6s both;
+            animation: fadeInUp 1s ease-out 0.6s both, buttonPulse 2s ease-in-out infinite;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
         
         .cta-button:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.5);
+            animation-play-state: paused;
         }
         
         /* Animaciones matemáticas de fondo */
@@ -215,19 +217,14 @@
         
         .math-symbol {
             position: absolute;
-            color: rgba(102, 126, 234, 0.4);
-            font-size: 2em;
-            animation: cascade 8s linear infinite;
+            color: #ffffff;
+            font-size: 1.5em;
+            animation: cascade 6s linear infinite, twinkle 1.5s ease-in-out infinite;
             user-select: none;
-            text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
-        }
-        
-        .math-symbol:nth-child(odd) {
-            animation-duration: 10s;
-        }
-        
-        .math-symbol:nth-child(even) {
-            animation-duration: 12s;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            font-weight: normal;
+            z-index: 5;
+            pointer-events: none;
         }
         
         /* Sección del Cronograma */
@@ -588,19 +585,52 @@
         }
         
         /* Animaciones */
+        @keyframes buttonPulse {
+            0%, 100% {
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(102, 126, 234, 0.6), 0 0 40px rgba(118, 75, 162, 0.4);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.6;
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.5);
+            }
+        }
+        
         @keyframes cascade {
             0% {
-                transform: translateY(100vh) rotate(0deg);
+                transform: translateY(0px) rotate(0deg);
                 opacity: 0;
             }
             10% {
-                opacity: 1;
+                opacity: 0.8;
             }
             90% {
-                opacity: 1;
+                opacity: 0.8;
             }
             100% {
-                transform: translateY(-100px) rotate(360deg);
+                transform: translateY(-110vh) rotate(360deg);
                 opacity: 0;
             }
         }
@@ -884,7 +914,6 @@
         <div class="math-bg" id="mathBackground"></div>
         <div class="hero-content">
             <h1>ST Trigonometry</h1>
-            <p>Explora el fascinante mundo de la trigonometría con experiencias inmersivas e interactivas</p>
             <a href="#cronograma" class="cta-button">Cronograma</a>
         </div>
     </section>
@@ -992,18 +1021,52 @@
         // Animación de símbolos matemáticos en el fondo
         function createMathSymbols() {
             const mathBg = document.getElementById('mathBackground');
-            const symbols = ['∑', '∫', 'π', '∞', '√', '∆', 'θ', 'α', 'β', 'γ', 'sin', 'cos', 'tan', '°', '∠'];
+            if (!mathBg) return;
             
-            for (let i = 0; i < 30; i++) {
-                const symbol = document.createElement('div');
-                symbol.className = 'math-symbol';
-                symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                symbol.style.left = Math.random() * 100 + '%';
-                symbol.style.top = '100%'; // Empiezan desde abajo
-                symbol.style.animationDelay = Math.random() * 8 + 's';
-                symbol.style.fontSize = (Math.random() * 2 + 1) + 'em';
-                mathBg.appendChild(symbol);
+            const symbols = ['π', '∑', '∫', '√', '∞', 'θ', 'α', 'β', 'γ', 'sin', 'cos', 'tan', '°', '∠', 'Ω', 'φ', 'λ', 'μ', 'σ', '∆', 'ψ', 'χ'];
+            
+            // Crear símbolos iniciales en cascada
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createSingleSymbol(mathBg, symbols);
+                }, i * 200);
             }
+            
+            // Crear nuevos símbolos en cascada continua
+            setInterval(() => {
+                createSingleSymbol(mathBg, symbols);
+            }, 800);
+        }
+
+        function createSingleSymbol(container, symbols) {
+            const symbol = document.createElement('div');
+            symbol.className = 'math-symbol';
+            
+            symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            // Posición aleatoria en X para crear efecto de cascada
+            symbol.style.left = (Math.random() * 90 + 5) + '%';
+            symbol.style.top = '100vh'; // Empezar desde el fondo
+            
+            // Tamaño más pequeño y uniforme
+            const size = Math.random() * 0.8 + 1.2; // Entre 1.2 y 2em
+            symbol.style.fontSize = size + 'em';
+            
+            // Duración variable para efecto de cascada
+            const duration = Math.random() * 2 + 5; // Entre 5 y 7 segundos
+            symbol.style.animationDuration = duration + 's, ' + (Math.random() * 0.8 + 1) + 's'; // Segunda duración para twinkle
+            
+            // Delay pequeño para escalonar la cascada
+            symbol.style.animationDelay = (Math.random() * 1) + 's, ' + (Math.random() * 1.5) + 's'; // Delays diferentes para cada animación
+            
+            container.appendChild(symbol);
+            
+            // Eliminar el símbolo después de la animación
+            setTimeout(() => {
+                if (symbol && symbol.parentNode) {
+                    symbol.parentNode.removeChild(symbol);
+                }
+            }, (duration + 1) * 1000);
         }
 
         // Datos de las actividades con descripciones
@@ -1299,6 +1362,17 @@
             generateGanttChart();
             updateProgress();
             initMobileMenu();
+            
+            // Limpiar símbolos antiguos periódicamente
+            setInterval(() => {
+                const mathBg = document.getElementById('mathBackground');
+                if (mathBg) {
+                    const symbols = mathBg.querySelectorAll('.math-symbol');
+                    if (symbols.length > 25) {
+                        symbols[0].remove();
+                    }
+                }
+            }, 3000);
             
             // Cerrar modal
             const modal = document.getElementById('activityModal');
